@@ -1,0 +1,20 @@
+version: '3.0.3'
+services:
+  wstun:
+    extra_hosts:
+      too.nice: '192.168.179.10'
+    # image: node:20-alpine
+    build:
+      context: .
+      dockerfile: Dockerfile-node
+    environment:
+      - DEBUG_LEVEL=DEBUG
+    ports:
+      # - 33000:3000
+      - 4000:4000
+    volumes:
+      - ..:/opt
+    working_dir: /opt
+    command:
+      - node
+      - /opt/test/echo.mjs

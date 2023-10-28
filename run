@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+DCOPTS="-f test/docker-compose.yaml"
+
+export DEBUG_LEVEL=DEBUG
+
+function dc {
+	docker compose $DCOPTS $@
+}
+
+function dcup {
+	dc up -d
+}
+
+function dcdown {
+	dc down
+}
+
+function dcrestart {
+	./run dcdown
+	./run dcup
+}
+
+function dcexec {
+	docker compose $DCOPTS exec wstun sh
+}
+
+function http {
+	local port=$1
+	port=${port:=3000}
+	curl -v http://localhost:$port
+}
+
+function cert {
+	./scripts/cert.sh
+}
+
+function help {
+	# declare -F does not works in zsh!
+	declare -F | sed -e 's/declare -f /    /; /    _[a-z]/d'
+}
+
+if test -z "$1"; then
+	help
+else
+	$1 ${*:2}
+fi

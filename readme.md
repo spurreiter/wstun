@@ -1,136 +1,202 @@
 # WSTUN - Tunnels and Reverse Tunnels over WebSocket for Node.js
 
-[![npm version](https://badge.fury.io/js/%40mdslab%2Fwstun.svg)](https://badge.fury.io/js/%40mdslab%2Fwstun)
+[![badge npm version][]][npm link]
+
+> An improved fork of <https://github.com/MDSLab/wstun>.
+
+- Refactored to use ESM
+- Linted and Typed
+
+## Table of Contents
+
+<!-- !toc (minlevel=2) -->
+
+* [Table of Contents](#table-of-contents)
+* [Overview](#overview)
+* [Installation](#installation)
+* [Forward WS Tunnel](#forward-ws-tunnel)
+  * [Instantiation of a forward tunnel server](#instantiation-of-a-forward-tunnel-server)
+  * [Implementation of a forward tunnel client](#implementation-of-a-forward-tunnel-client)
+* [Reverse WS Tunnel](#reverse-ws-tunnel)
+  * [Instantiation of a reverse tunnel server](#instantiation-of-a-reverse-tunnel-server)
+  * [Implementation of a reverse tunnel client](#implementation-of-a-reverse-tunnel-client)
+* [CLI](#cli)
+* [Logging system](#logging-system)
+
+<!-- toc! -->
 
 ## Overview
 
-A set of Node.js tools to establish TCP tunnels (or TCP reverse tunnels) over WebSocket connections for circumventing the problem of directly connect to hosts behind a strict firewall or without public IP. It also supports WebSocket Secure (wss) connections.
+A set of Node.js tools to establish TCP tunnels (or TCP reverse tunnels) over
+WebSocket connections for circumventing the problem of directly connect to hosts
+behind a strict firewall or without public IP. It also supports WebSocket Secure
+(wss) connections.
 
 ## Installation
+
 ```
-npm install @mdslab/wstun
-```
-
-## Usage (from a Node.js application)
-
-### Instantiation of a tunnel server 
-```JavaScript
-var wstun = require("@mdslab/wstun");
-
-// without security
-server = new wstun.server();
-
-// or with security (<PRIVATE-KEY-PATH> and <PUBLIC-KEY-PATH> are the paths of the private and public keys in .pem formats)
-server = new wstun.server({ssl:true, key:"<PRIVATE-KEY-PATH>", cert:"<PUBLIC-KEY-PATH>"});
-
-//start the server (<PORT> is the listening port)
-server.start(<PORT>)
+npm install @spurreiter/wstun
 ```
 
-### Implementation of a tunnel client
-```JavaScript
-var wstun = require("@mdslab/wstun");
+## Forward WS Tunnel
 
-client = new wstun.client();
+```
+           host                         remote
+        +--------+             +--------+      +---------+
+        |  :9000 |----wstun--->|  :4000 |      |   :3000 |
+   ====>| client |=====tcp====>| server |=====>| service |
+:9000   |        |----wstun--->|        |      |         |
+        +--------+             +--------+      +---------+
+```
 
-// without security
-wstunHost = 'ws://wstunServerIP:wstunPort';
+### Instantiation of a forward tunnel server
 
-// or with security 
-wstunHost = 'wss://wstunServerIP:wstunPort';
+```js
+import { Server } from '@spurreiter/wstun'
 
-// <localPort> is the port on the localhost on which the tunneled service will be reachable
-// <remoteHost>:<remotePort> is the endpoint of the service to be tunneled
-client.start(<localPort>, wstunHost, '<remoteHost>:<remotePort>');
+// start with TLS
+const server = new Server({
+  tlsOptions: {
+    key: 'path-to-private-key',
+    cert: 'path-to-public-cert'
+  }
+})
+
+// listening port where websocket gets connected
+const port = 4000
+// destination host and port (optional)
+const dstAddr = '127.0.0.1:3000'
+server.start(port, dstAddr)
+```
+
+### Implementation of a forward tunnel client
+
+```js
+import { Client } from '@spurreiter/wstun'
+
+const client = new Client({
+  tlsOptions: {
+    ca: 'path-to-public-cert' // for self signed certs
+  }
+})
+
+// is the port on the localhost on which the tunneled service will be reachable
+const localPort = 9000
+const wsHostUrl = new URL('wss://remote:4000')
+
+client.start(localPort, wsHostUrl)
+```
+
+## Reverse WS Tunnel
+
+```
+           host                        remote
+        +--------+             +--------+      +---------+
+        |  :8000 |<---wstun----|        |      |   :3000 |
+  =====>| server |=====tcp====>| client |=====>| service |
+:9000   |        |<---wstun----|        |      |         |
+        +--------+             +--------+      +---------+
 ```
 
 ### Instantiation of a reverse tunnel server
-```JavaScript
-var wstun = require("@mdslab/wstun");
 
-// without security
-reverse_server = new wstun.server_reverse();
+```js
+import { ServerReverse } from '@spurreiter/wstun'
 
-// or with security (<PRIVATE-KEY-PATH> and <PUBLIC-KEY-PATH> are the paths of the private and public keys in .pem formats)
-reverse_server = new wstun.server_reverse({ssl:true, key:"<PRIVATE-KEY-PATH>", cert:"<PUBLIC-KEY-PATH>"});
+// start with TLS
+const serverRev = new ServerReverse({
+  tlsOptions: {
+    key: 'path-to-private-key',
+    cert: 'path-to-public-cert'
+  }
+})
 
-//start the server (<PORT> is the listening port)
-reverse_server.start(<PORT>);
+// listening port where websocket is connected
+const port = 8000
+serverRev.start(port)
+```
 
-``` 
 ### Implementation of a reverse tunnel client
-```JavaScript   
-var wstun = require("reverse-wstunnel");
 
-reverse_client = new wstun.client_reverse();
+```js
+import { ClientReverse } from '@spurreiter/wstun'
 
-// without security
-wstunHost = 'ws://wstunServerIP:wstunPort';
+const clientRev = new ClientReverse({
+  tlsOptions: {
+    ca: 'path-to-public-cert' // for self signed certs
+  }
+})
 
-// or with security 
-wstunHost = 'wss://wstunServerIP:wstunPort';
+// is the port on the localhost on which the tunneled service will be reachable
+const tunnelPort = 9000
+const wsHostUrl = new URL('wss://host:8000')
+const remoteAddr = '127.0.0.1:3000'
 
-// <publicPort> is the port on the reverse tunnel server on which the tunneled service will be reachable
-// <remoteHost>:<remotePort> is the endpoint of the service to be reverse tunneled
-reverse_client.start(<publicPort>, wstunHost, '<remoteHost>:<remotePort>');
+clientRev.start(tunnelPort, wsHostUrl, remoteAddr)
 ```
 
-## Usage (from command line)
-A command line tool (wstun.js) is also available in the bin directory.
+## CLI
 
-Examples about how to run a tunnel server:
 ```
-//without security
-./wstun.js -s 8080
+    Tunnels and reverse tunnels over WebSocket.
 
-//with security
-./wstun.js -s 8080 --ssl=true --key="<PRIVATE-KEY-PATH>" --cert="<PUBLIC-KEY-PATH>"
-```
-Examples about how to run a tunnel client:
-```
-//without security
-./wstun.js -t 33:2.2.2.2:33 ws://wstunServerIP:8080 
+    wstun [options]
 
-//with security
-./wstun.js -t 33:2.2.2.2:33 wss://wstunServerIP:8080
-```
-In both examples, connections to localhost:33 on the client will be tunneled to 2.2.2.2:33 through the Websocket connection with the server. Note that the decision about the final destination of the tunnel is up to the client. Alternatively, it is possible to lock the final destination of the tunnel on the server side. 
+    -h|--help
 
-Examples about how to run a tunnel server locking the final tunnel destination: 
-```
-//without security 
-./wstun.js -s 8080 -t 2.2.2.2:33
+    -s|--server   port        run as server, specify listening port
 
-//with security
-./wstun.js -s 8080 -t 2.2.2.2:33 --ssl=true --key="<PRIVATE-KEY-PATH>" --cert="<PUBLIC-KEY-PATH>"
-```
-Examples about how to run a tunnel client when the final tunnel destination has been locked by the server:
-```
-//without security
-./wstun.js -t 33 ws://wstunServerIP:8080 
+    -r|--reverse              run server in reverse tunneling mode
 
-//with security
-./wstun.js -t 33 wss://wstunServerIP:8080
-```
+    -t|--tunnel   [localport:]host:port
+                              run as tunnel client, specify [localport:]host:port
 
-Examples about how to run a reverse tunnel server:
-```
-//without security
-./wstun.js -r -s 8080
+    -a|--allow    file.json   server accepts only the requests coming from
+                              authorized clients. Specify the path to the file
+                              containing authorized clients. Must be a .json
+                              file with:
+                              [{id: <uuid>, destinations: [<string>]}, {..}]
 
-//with security
-./wstun.js -r -s 8080 --ssl=true --key="<PRIVATE-KEY-PATH>" --cert="<PUBLIC-KEY-PATH>"
-```
-Examples about how to run a reverse tunnel client:
-```
-//without security
-./wstun.js -r6666:2.2.2.2:33 ws://server:8080
+    -u|--uuid     string      specify the bearer auth of the client
 
-//with security 
-./wstun.js -r6666:2.2.2.2:33 wss://server:8080
-```
-In the above examples, the client asks the server to open a TCP server on port 6666 and all connections on this port are tunneled to the client that is directely connected to 2.2.2.2:33.
+      |--local                tunnel server listens only on local host
+                              "127.0.0.1" instead of all hosts "0.0.0.0".
 
+      |--reconnect [number]   reconnect server or client after connection errors.
+                              Optionally specify the number of ms to restart.
+
+      |--key      filename    path to private key certificate
+
+      |--cert     filename    path to public key certificate
+
+      |--ca       filename    certification authority
+
+
+    Examples:
+
+    (forward tunnel server)
+    wstun -t 127.0.0.1:3000 -s 4000 --key s.key --cert s.crt
+    (forward tunnel client)
+    wstun -t 9000 --ca s.crt wss://host:4000
+
+    (reverse tunnel server)
+    wstun -s 8000 --key s.key --cert s.crt
+    (reverse tunnel client)
+    wstun.js -r -t 9000:127.0.0.1:3000 --ca s.crt wss://host:8000
+```
 
 ## Logging system
-WSTUN uses Log4js library to manage its logs in /var/log/wstun/
+
+wstun uses [debug-level][] for logging.
+
+To log to a file use, e.g.
+
+```sh
+npm i -g @spurreiter/wstun
+
+NODE_ENV=production wstun -s 8000 2> /var/log/wstun.log
+```
+
+[badge npm version]: https://badge.fury.io/js/%spurreiter%2Fwstun.svg
+[npm link]: https://www.npmjs.com/package/@spurreiter/wstun
+[debug-level]: https://www.npmjs.com/package/debug-level

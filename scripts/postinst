@@ -1,5 +1,0 @@
-#!/bin/sh
-
-mkdir -p /var/log/wstun
-touch /var/log/wstun/wstun.log
-echo "WSTUN logging set."

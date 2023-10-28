@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "declaration": true,
+    "declarationDir": "types",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "strict": true,
+    "module": "es2022",
+    "target": "es2022",
+    "emitDeclarationOnly": true,
+    "noEmitOnError": true
+  },
+  "include": ["src/*.js"],
+  "exclude": [
+    "bin",
+    "coverage",
+    "dist",
+    "docs",
+    "examples",
+    "node_modules",
+    "test",
+    "tmp"
+  ]
+}

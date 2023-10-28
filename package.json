@@ -1,41 +1,63 @@
 {
-  "name": "@mdslab/wstun",
-  "version": "1.1.0",
+  "name": "@spurreiter/wstun",
+  "version": "2.0.0-0",
   "description": "A set of tools to establish TCP tunnels (or TCP reverse tunnels) over WebSocket connections for circumventing the problem of directly connect to hosts behind a strict firewall or without public IP. It also supports WebSocket Secure (wss) connections.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "./scripts/postinst"
-  },
-  "dependencies": {
-    "websocket": "<=1.0.28",
-    "optimist": "<=0.6.1",
-    "node-uuid":"<=1.4.7",
-    "under_score": "<=0.1.0",
-    "log4js":"<=1.1.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MDSLab/wstun.git"
-  },
   "keywords": [
     "tunnel",
     "reverse",
     "WebSocket"
   ],
+  "homepage": "https://github.com/spurreiter/wstun",
+  "bugs": {
+    "url": "https://github.com/spurreiter/wstun/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spurreiter/wstun.git"
+  },
+  "license": "Apache-2.0",
   "author": "Nicola Peditto <npeditto@unime.it>",
   "contributors": [
     "Dario Bruneo <dbruneo@unime.it>",
     "Francesco Longo <flongo@unime.it>",
     "Giovanni Merlino <gmerlino@unime.it>",
-    "Andrea Rocco Lotronto <andrealotronto@gmail.com>"
+    "Andrea Rocco Lotronto <andrealotronto@gmail.com>",
+    "spurreiter"
   ],
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/MDSLab/wstun/issues"
-  },
-  "homepage": "https://github.com/MDSLab/wstun",
+  "type": "module",
+  "main": "src/index.js",
   "bin": {
     "wstun": "./bin/wstun.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "types"
+  ],
+  "scripts": {
+    "all": "npm run lint && npm t && npm run types",
+    "lint": "eslint --ext .js src --fix",
+    "test": "DEBUG_LEVEL=DEBUG mocha",
+    "types": "rm -rf types; tsc && cp src/*.d.ts types"
+  },
+  "dependencies": {
+    "debug-level": "^3.1.2",
+    "websocket": "^1.0.34"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.10",
+    "eslint": "^8.52.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-n": "^16.2.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "mocha": "^10.2.0",
+    "typescript": "^5.2.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
