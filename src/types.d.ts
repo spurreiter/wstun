@@ -220,8 +220,6 @@ export interface ServerOptions {
 export interface AllowedClient {
   /** clients uuid */
   id: string
-  /** clients assigned port */
-  port: number
-  /** list if allowed destinations */
+  /** list of allowed destinations */
   destinations?: string[]
 }

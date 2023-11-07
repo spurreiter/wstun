@@ -31,9 +31,6 @@ export class AllowList {
       if (typeof allowed.id !== 'string') {
         throw TypeError(`allowList[].id must be a string id=${allowed.id}`)
       }
-      if (allowed.port && typeof allowed.port !== 'number') {
-        throw TypeError(`allowList[].port must be a number id=${allowed.id}`)
-      }
       if (allowed.destinations && !Array.isArray(allowed.destinations)) {
         throw TypeError(
           `allowList[].destinations must be an array of strings id=${allowed.id}`

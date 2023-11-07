@@ -26,6 +26,7 @@
   ],
   "type": "module",
   "main": "src/index.js",
+  "types": "types",
   "bin": {
     "wstun": "./bin/wstun.js"
   },
