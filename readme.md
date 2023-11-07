@@ -1,6 +1,7 @@
-# WSTUN - Tunnels and Reverse Tunnels over WebSocket for Node.js
+# WSTUN - Tunnels and Reverse Tunnels over WebSocket
 
 [![badge npm version][]][npm link]
+![types-badge][]
 
 > An improved fork of <https://github.com/MDSLab/wstun>.
 
@@ -11,7 +12,6 @@
 
 <!-- !toc (minlevel=2) -->
 
-* [Table of Contents](#table-of-contents)
 * [Overview](#overview)
 * [Installation](#installation)
 * [Forward WS Tunnel](#forward-ws-tunnel)
@@ -197,6 +197,7 @@ npm i -g @spurreiter/wstun
 NODE_ENV=production wstun -s 8000 2> /var/log/wstun.log
 ```
 
-[badge npm version]: https://badge.fury.io/js/%spurreiter%2Fwstun.svg
+[badge npm version]: https://badgen.net/npm/v/%40spurreiter%2Fwstun
 [npm link]: https://www.npmjs.com/package/@spurreiter/wstun
+[types-badge]: https://badgen.net/npm/types/%40spurreiter%2Fwstun
 [debug-level]: https://www.npmjs.com/package/debug-level
