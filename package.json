@@ -1,6 +1,6 @@
 {
   "name": "@spurreiter/wstun",
-  "version": "2.0.0",
+  "version": "2.0.1-0",
   "description": "A set of tools to establish TCP tunnels (or TCP reverse tunnels) over WebSocket connections for circumventing the problem of directly connect to hosts behind a strict firewall or without public IP. It also supports WebSocket Secure (wss) connections.",
   "keywords": [
     "tunnel",
@@ -26,6 +26,7 @@
   ],
   "type": "module",
   "main": "src/index.js",
+  "module": "src/index.js",
   "types": "types",
   "bin": {
     "wstun": "./bin/wstun.js"
@@ -36,7 +37,8 @@
     "types"
   ],
   "scripts": {
-    "all": "npm run lint && npm t && npm run types",
+    "all": "npm-run-all lint cert test types",
+    "cert": "./scripts/cert.sh",
     "lint": "eslint --ext .js src --fix",
     "test": "DEBUG_LEVEL=DEBUG mocha",
     "types": "rm -rf types; tsc && cp src/*.d.ts types"
@@ -47,12 +49,13 @@
   },
   "devDependencies": {
     "@types/node": "^20.8.10",
-    "eslint": "^8.52.0",
+    "eslint": "^8.53.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.29.0",
-    "eslint-plugin-n": "^16.2.0",
+    "eslint-plugin-n": "^16.3.0",
     "eslint-plugin-promise": "^6.1.1",
     "mocha": "^10.2.0",
+    "npm-run-all2": "^6.1.1",
     "typescript": "^5.2.2"
   },
   "engines": {
