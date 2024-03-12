@@ -1,6 +1,6 @@
 /// <reference types="node" />
 /// <reference types="node" />
-export class Client extends EventEmitter {
+export class Client extends EventEmitter<[never]> {
     /**
      * @param {import('./types').ClientOptions} [clientOptions]
      */

@@ -1,6 +1,6 @@
 /// <reference types="node" />
 /// <reference types="node" />
-export class Server extends EventEmitter {
+export class Server extends EventEmitter<[never]> {
     /**
      * @param {import('./types').ServerOptions} [options]
      */

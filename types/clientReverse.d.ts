@@ -1,5 +1,5 @@
 /// <reference types="node" />
-export class ClientReverse extends EventEmitter {
+export class ClientReverse extends EventEmitter<[never]> {
     /**
      * @param {import('./types').ClientOptions} [clientOptions]
      */
