@@ -1,21 +1,20 @@
-/// <reference types="node" />
 export class ClientReverse extends EventEmitter<[never]> {
     /**
      * @param {import('./types').ClientOptions} [clientOptions]
      */
-    constructor(clientOptions?: import("./types").ClientOptions | undefined);
+    constructor(clientOptions?: import("./types").ClientOptions);
     _headers: {
         authorization: string;
     } | undefined;
     _clientOptions: {
         tlsOptions: import("tls").TlsOptions | undefined;
-        maxReceivedFrameSize?: number | undefined;
-        maxReceivedMessageSize?: number | undefined;
-        fragmentOutgoingMessages?: boolean | undefined;
-        fragmentationThreshold?: number | undefined;
-        assembleFragments?: boolean | undefined;
-        disableNagleAlgorithm?: boolean | undefined;
-        closeTimeout?: number | undefined;
+        maxReceivedFrameSize?: number;
+        maxReceivedMessageSize?: number;
+        fragmentOutgoingMessages?: boolean;
+        fragmentationThreshold?: number;
+        assembleFragments?: boolean;
+        disableNagleAlgorithm?: boolean;
+        closeTimeout?: number;
     };
     wsClientForControl: any;
     /**

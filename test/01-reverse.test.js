@@ -1,7 +1,7 @@
 import assert from 'assert/strict'
 import { ClientReverse, ServerReverse, AllowList } from '../src/index.js'
 import { server as service } from './echo.mjs'
-import { nap } from './helper.js'
+import { nap, dnsEquals } from './helper.js'
 
 describe('reverse tunnel', function () {
   describe('normal', function () {
@@ -46,6 +46,13 @@ describe('reverse tunnel', function () {
     const key = new URL(`../${hostname}.key`, import.meta.url)
     const cert = new URL(`../${hostname}.crt`, import.meta.url)
 
+    before(async function () {
+      await dnsEquals(hostname).catch(err => {
+        console.error(`add '127.0.0.1  ${hostname}' to /etc/hosts`)
+        throw err
+      })
+    })
+
     let server
     let client
     before(function () {
@@ -75,10 +82,8 @@ describe('reverse tunnel', function () {
       await nap(100)
     })
 
-    // it('foo', () => {})
-
     it('shall tunnel a request', async function () {
-    // this.timeout(10e3)
+      // this.timeout(10e3)
       const res = await fetch('http://127.0.0.1:9019?test=1')
       assert.equal(res.ok, true)
       const data = await res.json()

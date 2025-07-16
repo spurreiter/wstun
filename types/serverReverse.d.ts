@@ -1,10 +1,8 @@
-/// <reference types="node" />
-/// <reference types="node" />
 export class ServerReverse extends EventEmitter<[never]> {
     /**
      * @param {import('./types').ServerOptions} [options]
      */
-    constructor(options?: import("./types").ServerOptions | undefined);
+    constructor(options?: import("./types").ServerOptions);
     _allowList: import("./allowList.js").AllowList | undefined;
     _listeningHost: string | undefined;
     httpsFlag: boolean;

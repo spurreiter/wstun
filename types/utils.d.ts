@@ -3,7 +3,7 @@
  * @param {string|URL|Buffer} [filenameOrPem]
  * @returns {Buffer|undefined}
  */
-export function getPem(filenameOrPem?: string | URL | Buffer | undefined): Buffer | undefined;
+export function getPem(filenameOrPem?: string | URL | Buffer): Buffer | undefined;
 /**
  * @typedef {import('./types').TlsOptionsExt} TlsOptionsExt
  */ /**
@@ -13,12 +13,12 @@ export function getPem(filenameOrPem?: string | URL | Buffer | undefined): Buffe
  * @param {TlsOptionsExt} [tlsOptions]
  * @returns {TlsOptions|undefined}
  */
-export function getPemFiles(tlsOptions?: import("./types").TlsOptionsExt | undefined): TlsOptions | undefined;
-export function logger(namespace: string, opts?: object): import('debug-level').Log;
-export function nap(ms?: number | undefined): Promise<number>;
+export function getPemFiles(tlsOptions?: TlsOptionsExt): TlsOptions | undefined;
+export function logger(namespace: string, opts?: object): import("debug-level").Log;
+export function nap(ms?: number): Promise<number>;
 export function qs(path: string): object;
 export function toURL(strOrUrl: URL | string): URL;
 export function toInteger(any: any): number | undefined;
 export function toString(any: any): string | undefined;
-export type TlsOptionsExt = import('./types').TlsOptionsExt;
-export type TlsOptions = import('node:tls').TlsOptions;
+export type TlsOptionsExt = import("./types").TlsOptionsExt;
+export type TlsOptions = import("node:tls").TlsOptions;

@@ -1,7 +1,7 @@
 import assert from 'assert/strict'
 import { Client, Server, AllowList } from '../src/index.js'
 import { server as service } from './echo.mjs'
-import { nap } from './helper.js'
+import { nap, dnsEquals } from './helper.js'
 
 describe('forward tunnel', function () {
   describe('normal', function () {
@@ -46,6 +46,13 @@ describe('forward tunnel', function () {
     const hostname = 'too.nice'
     const key = new URL(`../${hostname}.key`, import.meta.url)
     const cert = new URL(`../${hostname}.crt`, import.meta.url)
+
+    before(async function () {
+      await dnsEquals(hostname).catch(err => {
+        console.error(`add '127.0.0.1  ${hostname}' to /etc/hosts`)
+        throw err
+      })
+    })
 
     let server
     let client

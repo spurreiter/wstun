@@ -5,7 +5,7 @@ export class AllowList {
     /**
      * @param {AllowedClient[]} [allowList]
      */
-    constructor(allowList?: import("./types").AllowedClient[] | undefined);
+    constructor(allowList?: AllowedClient[]);
     /**
      * @private
      * @param {AllowedClient[]} allowList
@@ -23,4 +23,4 @@ export class AllowList {
     isAuthorized(authHeader: string): Promise<object>;
     loadSync(filename: any): void;
 }
-export type AllowedClient = import('./types').AllowedClient;
+export type AllowedClient = import("./types").AllowedClient;
