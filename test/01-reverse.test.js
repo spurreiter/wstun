@@ -47,7 +47,7 @@ describe('reverse tunnel', function () {
     const cert = new URL(`../${hostname}.crt`, import.meta.url)
 
     before(async function () {
-      await dnsEquals(hostname).catch(err => {
+      await dnsEquals(hostname).catch((err) => {
         console.error(`add '127.0.0.1  ${hostname}' to /etc/hosts`)
         throw err
       })

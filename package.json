@@ -37,26 +37,27 @@
     "types"
   ],
   "scripts": {
-    "clean": "rm too.nice*",
     "all": "npm-run-all lint cert test types",
     "cert": "./scripts/cert.sh",
-    "lint": "eslint --ext .js src --fix",
+    "clean": "rimraf too.nice*",
+    "lint": "eslint --fix",
     "test": "DEBUG_LEVEL=DEBUG mocha",
-    "types": "rm -rf types; tsc"
+    "types": "rimraf types; tsc"
   },
   "dependencies": {
     "debug-level": "^4.1.1",
     "websocket": "^1.0.35"
   },
   "devDependencies": {
-    "@types/node": "^24.0.14",
-    "eslint": "^9.31.0",
-    "eslint-config-prettier": "^10.1.5",
-    "eslint-plugin-prettier": "^5.5.1",
-    "globals": "^16.3.0",
-    "mocha": "^11.7.1",
+    "@types/node": "^24.10.9",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "globals": "^17.1.0",
+    "mocha": "^11.7.5",
     "npm-run-all2": "^8.0.4",
-    "typescript": "^5.8.3"
+    "rimraf": "^6.1.2",
+    "typescript": "^5.9.3"
   },
   "engines": {
     "node": ">=20"

@@ -58,7 +58,7 @@ export function cli(cmds, argv = process.argv.slice(2)) {
       cmd[key] = def
     }
     o[short] = o[long] = () => {
-      const val = type ? nextArg(_argv) ?? def ?? true : true
+      const val = type ? (nextArg(_argv) ?? def ?? true) : true
       cmd[key] = type === 'number' ? Number(val) : val
     }
     return o

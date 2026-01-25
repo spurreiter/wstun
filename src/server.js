@@ -27,7 +27,7 @@ import { logger, getPemFiles, qs } from './utils.js'
 const WebSocketServer = websocket.server
 const log = logger('server')
 
-const defaultApp = (req, res) => {
+const defaultApp = (req, _res) => {
   log.info(req)
 }
 
@@ -133,7 +133,12 @@ export class Server extends EventEmitter {
       })
 
       tcpConn.on('error', (err) => {
-        this._reject(req, 502, 'Bad Gateway', `Tunnel connect error to ${host}:${port}: ${err}`)
+        this._reject(
+          req,
+          502,
+          'Bad Gateway',
+          `Tunnel connect error to ${host}:${port}: ${err}`
+        )
         this.emit('error', err)
       })
     })

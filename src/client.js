@@ -86,7 +86,12 @@ export class Client extends EventEmitter {
         _wsHostUrl.searchParams.set('dst', destination)
       }
 
-      wsClient.connect(_wsHostUrl.toString(), 'tunnel-protocol', undefined, this._headers)
+      wsClient.connect(
+        _wsHostUrl.toString(),
+        'tunnel-protocol',
+        undefined,
+        this._headers
+      )
     })
   }
 

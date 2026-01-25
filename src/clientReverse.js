@@ -115,7 +115,12 @@ export class ClientReverse extends EventEmitter {
       })
     })
 
-    this.wsClientForControl.connect(connUrl, 'tunnel-protocol', undefined, this._headers)
+    this.wsClientForControl.connect(
+      connUrl,
+      'tunnel-protocol',
+      undefined,
+      this._headers
+    )
   }
 
   close() {
