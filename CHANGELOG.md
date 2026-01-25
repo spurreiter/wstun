@@ -1,3 +1,7 @@
+# 2.0.4 (2026-01-25)
+
+- chore: bump dependencies and improve linting (#c2c1ddb)
+
 # 2.0.3 (2025-07-16)
 
 - chore: bump dependencies (#2a7bbb7)
