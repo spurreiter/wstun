@@ -1,3 +1,8 @@
+# 2.0.5 (2026-03-29)
+
+- test: fix tests (#6c28eab)
+- chore: bump dependencies (#8fc723e)
+
 # 2.0.4 (2026-01-25)
 
 - chore: bump dependencies and improve linting (#c2c1ddb)
