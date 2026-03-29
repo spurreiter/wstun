@@ -16,11 +16,9 @@ describe('reverse tunnel', function () {
     before(async function () {
       server = new ServerReverse()
       server.start(4014)
-      await nap(50)
     })
     after(async function () {
       server.close()
-      await nap(100)
     })
     before(function () {
       client = new ClientReverse()
@@ -28,6 +26,13 @@ describe('reverse tunnel', function () {
     })
     after(async function () {
       client.close()
+    })
+
+    before(async function () {
+      // wait that the client is ready to accept connections
+      await nap(200)
+    })
+    after(async function () {
       await nap(100)
     })
 
@@ -64,21 +69,24 @@ describe('reverse tunnel', function () {
     before(async function () {
       server = new ServerReverse({ tlsOptions: { key, cert } })
       server.start(4014)
-      await nap(25)
     })
     after(async function () {
       server.close()
-      await nap(100)
     })
     before(async function () {
       client = new ClientReverse({
         tlsOptions: { ca: cert, rejectUnauthorized: true }
       })
       client.start(9019, `wss://${hostname}:4014`, '127.0.0.1:3013')
-      await nap(25)
     })
     after(async function () {
       client.close()
+    })
+    before(async function () {
+      // wait that the client is ready to accept connections
+      await nap(200)
+    })
+    after(async function () {
       await nap(100)
     })
 

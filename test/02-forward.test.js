@@ -19,7 +19,6 @@ describe('forward tunnel', function () {
     })
     after(async function () {
       server.close()
-      await nap(100)
     })
     before(function () {
       client = new Client({
@@ -29,6 +28,12 @@ describe('forward tunnel', function () {
     })
     after(async function () {
       client.close()
+    })
+    before(async function () {
+      // wait that the client is ready to accept connections
+      await nap(200)
+    })
+    after(async function () {
       await nap(100)
     })
 
@@ -153,11 +158,17 @@ describe('forward tunnel', function () {
     })
     after(async function () {
       server.close()
-      await nap(100)
     })
     afterEach(function () {
       client && client.close()
       errors = []
+    })
+    before(async function () {
+      // wait that the client is ready to accept connections
+      await nap(200)
+    })
+    after(async function () {
+      await nap(100)
     })
 
     it('shall fail with wrong bearer auth', async function () {
