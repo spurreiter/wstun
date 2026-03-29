@@ -1,5 +1,5 @@
 /**
- * @typedef {import('./types').AllowedClient} AllowedClient
+ * @typedef {import('./types.js').AllowedClient} AllowedClient
  */
 export class AllowList {
     /**
@@ -23,4 +23,4 @@ export class AllowList {
     isAuthorized(authHeader: string): Promise<object>;
     loadSync(filename: any): void;
 }
-export type AllowedClient = import("./types").AllowedClient;
+export type AllowedClient = import("./types.js").AllowedClient;

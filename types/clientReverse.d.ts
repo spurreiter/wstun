@@ -1,13 +1,13 @@
-export class ClientReverse extends EventEmitter<[never]> {
+export class ClientReverse extends EventEmitter<any> {
     /**
-     * @param {import('./types').ClientOptions} [clientOptions]
+     * @param {import('./types.js').ClientOptions} [clientOptions]
      */
-    constructor(clientOptions?: import("./types").ClientOptions);
+    constructor(clientOptions?: import("./types.js").ClientOptions);
     _headers: {
         authorization: string;
     } | undefined;
     _clientOptions: {
-        tlsOptions: import("tls").TlsOptions | undefined;
+        tlsOptions: import("node:tls").TlsOptions | undefined;
         maxReceivedFrameSize?: number;
         maxReceivedMessageSize?: number;
         fragmentOutgoingMessages?: boolean;

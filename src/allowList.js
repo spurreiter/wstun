@@ -2,7 +2,7 @@ import * as fs from 'node:fs'
 import { timingSafeEqual } from 'node:crypto'
 
 /**
- * @typedef {import('./types').AllowedClient} AllowedClient
+ * @typedef {import('./types.js').AllowedClient} AllowedClient
  */
 
 export class AllowList {

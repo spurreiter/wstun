@@ -28,7 +28,7 @@ const WebSocketClient = websocket.client
 
 export class ClientReverse extends EventEmitter {
   /**
-   * @param {import('./types').ClientOptions} [clientOptions]
+   * @param {import('./types.js').ClientOptions} [clientOptions]
    */
   constructor(clientOptions) {
     super()

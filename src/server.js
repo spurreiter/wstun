@@ -33,7 +33,7 @@ const defaultApp = (req, _res) => {
 
 export class Server extends EventEmitter {
   /**
-   * @param {import('./types').ServerOptions} [options]
+   * @param {import('./types.js').ServerOptions} [options]
    */
   constructor(options) {
     super()

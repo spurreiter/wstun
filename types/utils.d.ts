@@ -5,7 +5,7 @@
  */
 export function getPem(filenameOrPem?: string | URL | Buffer): Buffer | undefined;
 /**
- * @typedef {import('./types').TlsOptionsExt} TlsOptionsExt
+ * @typedef {import('./types.js').TlsOptionsExt} TlsOptionsExt
  */ /**
 * @typedef {import('node:tls').TlsOptions} TlsOptions
 */
@@ -20,5 +20,5 @@ export function qs(path: string): object;
 export function toURL(strOrUrl: URL | string): URL;
 export function toInteger(any: any): number | undefined;
 export function toString(any: any): string | undefined;
-export type TlsOptionsExt = import("./types").TlsOptionsExt;
+export type TlsOptionsExt = import("./types.js").TlsOptionsExt;
 export type TlsOptions = import("node:tls").TlsOptions;

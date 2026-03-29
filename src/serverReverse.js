@@ -50,7 +50,7 @@ const defaultApp = (req, res) => {
 
 export class ServerReverse extends EventEmitter {
   /**
-   * @param {import('./types').ServerOptions} [options]
+   * @param {import('./types.js').ServerOptions} [options]
    */
   constructor(options) {
     super()

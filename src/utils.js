@@ -35,7 +35,7 @@ export function getPem(filenameOrPem) {
 }
 
 /**
- * @typedef {import('./types').TlsOptionsExt} TlsOptionsExt
+ * @typedef {import('./types.js').TlsOptionsExt} TlsOptionsExt
  */ /**
  * @typedef {import('node:tls').TlsOptions} TlsOptions
  */

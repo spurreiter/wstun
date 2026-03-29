@@ -49,15 +49,15 @@
     "websocket": "^1.0.35"
   },
   "devDependencies": {
-    "@types/node": "^24.10.9",
-    "eslint": "^9.39.2",
+    "@types/node": "^25.5.0",
+    "eslint": "^10.1.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
-    "globals": "^17.1.0",
+    "globals": "^17.4.0",
     "mocha": "^11.7.5",
     "npm-run-all2": "^8.0.4",
-    "rimraf": "^6.1.2",
-    "typescript": "^5.9.3"
+    "rimraf": "^6.1.3",
+    "typescript": "^6.0.2"
   },
   "engines": {
     "node": ">=20"
